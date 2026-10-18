@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07152b">
+<title>IPASecurityLab — Demo</title>
+<style>
+:root{color-scheme:dark;--bg:#07152b;--panel:#102544;--cyan:#45e4ff;--text:#edf7ff;--muted:#a7bdd4;--red:#ff697a;--green:#6df0b0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#143a61,var(--bg) 65%);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text);min-height:100vh;padding:18px}
+main{max-width:900px;margin:auto}.top{display:flex;align-items:center;gap:12px;margin-bottom:18px}.logo{width:48px;height:48px;border:1px solid var(--cyan);border-radius:14px;display:grid;place-items:center;color:var(--cyan);font-weight:900;font-size:20px;box-shadow:0 0 22px #45e4ff35}.sub{color:var(--muted);font-size:13px}h1{font-size:clamp(22px,5vw,32px);margin:0}h2{font-size:18px;margin:0 0 12px}.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:14px}.panel{background:#0c2038eF;border:1px solid #294b6a;border-radius:18px;padding:16px;box-shadow:0 12px 36px #0003}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{background:#07172b;border-radius:12px;padding:10px}.stat small{display:block;color:var(--muted);font-size:12px}.stat strong{font-size:21px}.stage{width:100%;display:block;background:linear-gradient(#0b2340,#071327);border:1px solid #315573;border-radius:14px;touch-action:manipulation}.controls{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:8px;margin-top:10px}button{background:#14395a;color:var(--text);border:1px solid #3b6c90;border-radius:12px;padding:12px 8px;font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation}button.primary{background:linear-gradient(110deg,#087da8,#1753a1);border-color:var(--cyan)}button:active{transform:scale(.98)}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1}.note{font-size:13px;color:var(--muted);line-height:1.5}.check{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid #29415b;padding:10px 0;font-size:14px}.status{font-weight:800;color:var(--green)}.alert{color:var(--red)}.log{background:#061426;border-radius:12px;padding:10px;min-height:115px;max-height:180px;overflow:auto;font:12px ui-monospace,monospace;color:#b8d5ec;white-space:pre-wrap}.field{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0}.field input{width:105px;background:#061426;border:1px solid #3b5875;border-radius:8px;color:white;padding:8px}.footer{text-align:center;color:var(--muted);font-size:12px;margin:18px 0 4px}@media(max-width:700px){body{padding:12px}.grid{grid-template-columns:1fr}.panel{padding:13px}.stats strong{font-size:18px}}
+</style>
+</head>
+<body><main>
+<header class="top"><div class="logo">IPA</div><div><h1>IPASecurityLab</h1><div class="sub">Phòng thí nghiệm bảo mật · bản demo chạy trên trình duyệt</div></div></header>
+<div class="grid">
+<section class="panel"><h2>🎯 Trò chơi bắn mục tiêu</h2>
+<div class="stats"><div class="stat"><small>Điểm</small><strong id="score">0</strong></div><div class="stat"><small>Máu</small><strong id="hp">100</strong></div><div class="stat"><small>Đạn</small><strong id="ammo">15</strong></div></div>
+<canvas id="game" class="stage" width="600" height="330" aria-label="Trò chơi bắn mục tiêu"></canvas>
+<div class="controls"><button id="left">◀ Trái</button><button id="right">Phải ▶</button><button id="shoot" class="primary">BẮN ●</button></div>
+<div class="row" style="margin-top:8px"><button id="reload">↻ Nạp đạn</button><button id="restart">Chơi lại</button></div>
+<p class="note">Chạm Trái/Phải để di chuyển, BẮN để bắn mục tiêu. Đây là trò chơi mô phỏng độc lập, không kết nối với Free Fire hay ứng dụng khác.</p>
+</section>
+<aside class="panel"><h2>🛡️ Mô phỏng kiểm tra toàn vẹn</h2>
+<div id="checks"></div>
+<p class="note">Các phép kiểm tra chỉ theo dõi trạng thái của trò chơi demo. Cảnh báo không có nghĩa là phát hiện hoặc kiểm tra một trò chơi bên ngoài.</p>
+<h2 style="margin-top:18px">Bảng điều khiển thử nghiệm</h2>
+<div class="field"><label for="testHp">Máu thử nghiệm</label><input id="testHp" type="number" value="100" min="-999" max="999"></div>
+<div class="field"><label for="testSpeed">Tốc độ thử nghiệm</label><input id="testSpeed" type="number" value="2" min="-99" max="99" step=".5"></div>
+<div class="field"><label for="testAmmo">Đạn thử nghiệm</label><input id="testAmmo" type="number" value="15" min="-999" max="999"></div>
+<div class="row"><button class="primary" id="runCheck">Chạy kiểm tra</button><button id="resetTest">Khôi phục</button></div>
+<h2 style="margin-top:18px">Nhật ký</h2><div class="log" id="log" aria-live="polite">[READY] Phòng lab đã sẵn sàng.</div>
+</aside></div>
+<div class="footer">IPASecurityLab · bản học tập · không can thiệp ứng dụng hoặc trò chơi bên ngoài</div>
+</main>
+<script>
+(()=>{const $=id=>document.getElementById(id);const canvas=$('game'),ctx=canvas.getContext('2d');let player={x:300,y:285},targets=[],bullets=[],score=0,hp=100,ammo=15,speed=2,frame=0,gameOver=false;
+function log(s){const el=$('log');el.textContent='['+new Date().toLocaleTimeString()+'] '+s+'\n'+el.textContent;el.textContent=el.textContent.slice(0,1800)}
+function spawn(){targets.push({x:35+Math.random()*530,y:35+Math.random()*150,r:13+Math.random()*7,dx:(Math.random()-.5)*2.2,dy:.5+Math.random()*.7})}
+function ui(){$('score').textContent=score;$('hp').textContent=hp;$('ammo').textContent=ammo}
+function draw(){ctx.clearRect(0,0,600,330);ctx.strokeStyle='#173b59';ctx.lineWidth=1;for(let x=0;x<600;x+=30){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,330);ctx.stroke()}for(let y=0;y<330;y+=30){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(600,y);ctx.stroke()}
+targets.forEach(t=>{ctx.beginPath();ctx.arc(t.x,t.y,t.r,0,Math.PI*2);ctx.fillStyle='#ff6b7b';ctx.fill();ctx.beginPath();ctx.arc(t.x,t.y,t.r*.55,0,Math.PI*2);ctx.fillStyle='#ffe9ef';ctx.fill();ctx.beginPath();ctx.arc(t.x,t.y,t.r*.22,0,Math.PI*2);ctx.fillStyle='#ff6b7b';ctx.fill()});
+bullets.forEach(b=>{ctx.fillStyle='#45e4ff';ctx.fillRect(b.x-2,b.y-8,4,12)});ctx.fillStyle='#45e4ff';ctx.beginPath();ctx.moveTo(player.x,player.y-19);ctx.lineTo(player.x-15,player.y+14);ctx.lineTo(player.x+15,player.y+14);ctx.closePath();ctx.fill();ctx.fillStyle='#edf7ff';ctx.font='13px system-ui';ctx.fillText(gameOver?'HẾT LƯỢT — bấm Chơi lại': 'BẮN MỤC TIÊU',12,20)}
+function tick(){frame++;if(frame%75===0&&!gameOver)spawn();if(!gameOver){targets.forEach(t=>{t.x+=t.dx;t.y+=t.dy;if(t.x<15||t.x>585)t.dx*=-1;if(t.y>270){t.y=20;hp=Math.max(0,hp-5);log('ALERT: mục tiêu vượt tuyến, máu giảm 5.');if(hp===0){gameOver=true;log('Lượt chơi kết thúc.')}}});bullets.forEach(b=>b.y-=7);bullets=bullets.filter(b=>b.y>-10);for(let i=targets.length-1;i>=0;i--){let t=targets[i],hit=bullets.findIndex(b=>Math.hypot(b.x-t.x,b.y-t.y)<t.r+5);if(hit>=0){targets.splice(i,1);bullets.splice(hit,1);score+=10;}}}draw();ui();requestAnimationFrame(tick)}
+function move(d){if(!gameOver)player.x=Math.max(18,Math.min(582,player.x+d*18))}
+$('left').onclick=()=>move(-1);$('right').onclick=()=>move(1);$('shoot').onclick=()=>{if(gameOver)return;if(ammo>0){ammo--;bullets.push({x:player.x,y:player.y-15});}else log('Đã hết đạn, hãy nạp đạn.');ui()};$('reload').onclick=()=>{ammo=15;log('Đã nạp lại 15 viên đạn trong demo.');ui()};$('restart').onclick=()=>{score=0;hp=100;ammo=15;targets=[];bullets=[];player.x=300;gameOver=false;log('Đã bắt đầu lượt mới.');ui()};document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key.toLowerCase()==='a')move(-1);if(e.key==='ArrowRight'||e.key.toLowerCase()==='d')move(1);if(e.key===' '){e.preventDefault();$('shoot').click()}});
+function checks(){const h=Number($('testHp').value),s=Number($('testSpeed').value),a=Number($('testAmmo').value);const vals=[['Máu nằm trong 0–100',Number.isFinite(h)&&h>=0&&h<=100],['Tốc độ nằm trong 0–5',Number.isFinite(s)&&s>=0&&s<=5],['Đạn là số nguyên 0–30',Number.isInteger(a)&&a>=0&&a<=30]];$('checks').innerHTML=vals.map(([name,ok])=>'<div class="check"><span>'+name+'</span><span class="'+(ok?'status':'status alert')+'">'+(ok?'PASS':'ALERT')+'</span></div>').join('');vals.forEach(([name,ok])=>log((ok?'PASS: ':'ALERT: ')+name));if(vals.every(v=>v[1]))log('Kiểm tra demo hoàn tất: mọi giá trị hợp lệ.')}
+$('runCheck').onclick=checks;$('resetTest').onclick=()=>{$('testHp').value=100;$('testSpeed').value=2;$('testAmmo').value=15;checks();log('Đã khôi phục giá trị thử nghiệm mặc định.')};spawn();spawn();ui();checks();tick();
+})();
+</script></body></html>
